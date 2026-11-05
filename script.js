@@ -1,0 +1,27 @@
+const menuButton = document.querySelector('.menu-toggle');
+const navigation = document.querySelector('#main-nav');
+function closeMenu() {
+  menuButton.setAttribute('aria-expanded', 'false');
+  navigation.classList.remove('open');
+}
+menuButton.addEventListener('click', () => {
+  const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+  menuButton.setAttribute('aria-expanded', String(!expanded));
+  navigation.classList.toggle('open', !expanded);
+});
+navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+    closeMenu();
+    menuButton.focus();
+  }
+});
+const caseButton = document.querySelector('.case-toggle');
+const projectDetails = document.querySelector('#project-details');
+caseButton.addEventListener('click', () => {
+  const expanded = caseButton.getAttribute('aria-expanded') === 'true';
+  caseButton.setAttribute('aria-expanded', String(!expanded));
+  projectDetails.hidden = expanded;
+  caseButton.innerHTML = `${expanded ? 'Project details' : 'Close details'} <span aria-hidden="true">${expanded ? '+' : '−'}</span>`;
+});
+document.querySelector('#year').textContent = String(new Date().getFullYear());
